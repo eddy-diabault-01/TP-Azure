@@ -1,0 +1,22 @@
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  vmAdminUsername: 'azureuser'
+  vmAdminPassword: 'SuperPassword123!'
+
+steps:
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: 'Connexion-SPN'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      az deployment group create \
+        --resource-group your-resource-group \
+        --template-file bicep/main.bicep \
+        --parameters adminUsername=$vmAdminUsername adminPassword=$vmAdminPassword
